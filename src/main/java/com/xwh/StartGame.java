@@ -3,6 +3,8 @@ package com.xwh;
 import com.xwh.game.BackgroundImage;
 import com.xwh.game.PvpMain;
 import com.xwh.gameframe.LoginFrame;
+import org.jetbrains.annotations.TestOnly;
+import org.junit.Test;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +16,8 @@ public class StartGame extends JFrame implements ActionListener {
     JButton pvpButton = new JButton("双人对战");
     JButton pveButton = new JButton("人机对战");
     JButton onlineButton = new JButton("在线对战");
+
+
 
     public static void main(String[] args) {
         new StartGame();

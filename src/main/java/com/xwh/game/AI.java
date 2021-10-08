@@ -1,5 +1,6 @@
 package com.xwh.game;
 
+import com.xwh.NetworkInterfaceUtils;
 import com.xwh.StartGame;
 
 import javax.swing.*;
@@ -9,10 +10,12 @@ import java.util.Comparator;
 public class AI extends Thread{
     PvpMain pvpMain;
     boolean flag;
+    TurnOverAction turnOverAction = null;
 
     public AI(PvpMain pvpMain, boolean flag) {
         this.flag = flag;
         this.pvpMain = pvpMain;
+        turnOverAction = new TurnOverAction(pvpMain);
     }
     @Override
     public void run() {
@@ -22,13 +25,13 @@ public class AI extends Thread{
                 try {
                     Thread.sleep(1);
                     if (!pvpMain.playOrder) {
-                        Thread.sleep(1000);
+                        Thread.sleep(500);
                         if (pvpMain.playerCards.size() != 0) {
                             int flag = 0;
                             for (Card card : pvpMain.playerCards2) {
                                 if (pvpMain.cardsPlacement.size() == 0 || !card.color.equals(pvpMain.cardsPlacement.get(pvpMain.cardsPlacement.size() - 1).color)) {
                                     selectCard(card);
-                                    Thread.sleep(1000);
+                                    Thread.sleep(500);
                                     place(card);
                                     flag = 1;
                                     break;
@@ -55,7 +58,7 @@ public class AI extends Thread{
                             for (Card card : pvpMain.playerCards2) {
                                 if (card.color.equals(colors[0].name) && !card.color.equals(pvpMain.cardsPlacement.get(pvpMain.cardsPlacement.size() - 1).color)) {
                                     selectCard(card);
-                                    Thread.sleep(1000);
+                                    Thread.sleep(500);
                                     place(card);
                                     flag = 1;
                                     break;
@@ -68,7 +71,7 @@ public class AI extends Thread{
                             for (Card card : pvpMain.playerCards2) {
                                 if (card.color.equals(colors[1].name) && !card.color.equals(pvpMain.cardsPlacement.get(pvpMain.cardsPlacement.size() - 1).color)) {
                                     selectCard(card);
-                                    Thread.sleep(1000);
+                                    Thread.sleep(500);
                                     place(card);
                                     flag = 1;
                                     break;
@@ -81,7 +84,7 @@ public class AI extends Thread{
                             for (Card card : pvpMain.playerCards2) {
                                 if (card.color.equals(colors[2].name) && !card.color.equals(pvpMain.cardsPlacement.get(pvpMain.cardsPlacement.size() - 1).color)) {
                                     selectCard(card);
-                                    Thread.sleep(1000);
+                                    Thread.sleep(500);
                                     place(card);
                                     flag = 1;
                                     break;
@@ -94,7 +97,7 @@ public class AI extends Thread{
                             for (Card card : pvpMain.playerCards2) {
                                 if (card.color.equals(colors[3].name) && !card.color.equals(pvpMain.cardsPlacement.get(pvpMain.cardsPlacement.size() - 1).color)) {
                                     selectCard(card);
-                                    Thread.sleep(1000);
+                                    Thread.sleep(500);
                                     place(card);
                                     flag = 1;
                                     break;
@@ -112,93 +115,105 @@ public class AI extends Thread{
             else {
                 try {
                     Thread.sleep(1);
+//                    if (pvpMain.online)
+//                        Thread.sleep(1000);
                     if (pvpMain.playOrder) {
-                        Thread.sleep(1000);
-                        if (pvpMain.playerCards2.size() != 0) {
-                            int flag = 0;
-                            for (Card card : pvpMain.playerCards) {
-                                if (pvpMain.cardsPlacement.size() == 0 || !card.color.equals(pvpMain.cardsPlacement.get(pvpMain.cardsPlacement.size() - 1).color)) {
-                                    selectCard(card);
-                                    Thread.sleep(1000);
-                                    place(card);
-                                    flag = 1;
-                                    break;
-                                }
-                            }
-                            if (flag == 0) {
-                                turnOver();
-                            }
-                        }
-                        else {
-                            int flag = 0;
-                            Color[] colors = new Color[4];
-                            colors[0] = new Color("黑桃", pvpMain.cardColorCount[0]);
-                            colors[1] = new Color("梅花", pvpMain.cardColorCount[1]);
-                            colors[2] = new Color("红桃", pvpMain.cardColorCount[2]);
-                            colors[3] = new Color("方块", pvpMain.cardColorCount[3]);
-                            Arrays.sort(colors, new Comparator<Color>() {
-                                @Override
-                                public int compare(Color o1, Color o2) {
-                                    return o2.count - o1.count;
-                                }
-                            });
+//                        if (!pvpMain.online)
+                        Thread.sleep(500);
+                        aiAction();
 
-                            for (Card card : pvpMain.playerCards) {
-                                if (card.color.equals(colors[0].name) && !card.color.equals(pvpMain.cardsPlacement.get(pvpMain.cardsPlacement.size() - 1).color)) {
-                                    selectCard(card);
-                                    Thread.sleep(1000);
-                                    place(card);
-                                    flag = 1;
-                                    break;
-                                }
-                            }
+                        pvpMain.playOrder = false;
 
-                            if (flag == 1)
-                                continue;
-
-                            for (Card card : pvpMain.playerCards) {
-                                if (card.color.equals(colors[1].name) && !card.color.equals(pvpMain.cardsPlacement.get(pvpMain.cardsPlacement.size() - 1).color)) {
-                                    selectCard(card);
-                                    Thread.sleep(1000);
-                                    place(card);
-                                    flag = 1;
-                                    break;
-                                }
-                            }
-
-                            if (flag == 1)
-                                continue;
-
-                            for (Card card : pvpMain.playerCards) {
-                                if (card.color.equals(colors[2].name) && !card.color.equals(pvpMain.cardsPlacement.get(pvpMain.cardsPlacement.size() - 1).color)) {
-                                    selectCard(card);
-                                    Thread.sleep(1000);
-                                    place(card);
-                                    flag = 1;
-                                    break;
-                                }
-                            }
-
-                            if (flag == 1)
-                                continue;
-
-                            for (Card card : pvpMain.playerCards) {
-                                if (card.color.equals(colors[3].name) && !card.color.equals(pvpMain.cardsPlacement.get(pvpMain.cardsPlacement.size() - 1).color)) {
-                                    selectCard(card);
-                                    Thread.sleep(1000);
-                                    place(card);
-                                    flag = 1;
-                                    break;
-                                }
-                            }
-                            if (flag == 0) {
-                                turnOver();
-                            }
-                        }
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+            }
+        }
+    }
+
+    public void aiAction() throws InterruptedException {
+        if (pvpMain.playerCards2.size() != 0) {
+            int flag = 0;
+            for (Card card : pvpMain.playerCards) {
+                if (pvpMain.cardsPlacement.size() == 0 || !card.color.equals(pvpMain.cardsPlacement.get(pvpMain.cardsPlacement.size() - 1).color)) {
+                    selectCard(card);
+                    Thread.sleep(500);
+                    place(card);
+                    flag = 1;
+                    break;
+                }
+            }
+            if (flag == 0) {
+//                turnOver();
+                turnOverAction.turnOver1();
+            }
+        }
+        else {
+            int flag = 0;
+            Color[] colors = new Color[4];
+            colors[0] = new Color("黑桃", pvpMain.cardColorCount[0]);
+            colors[1] = new Color("梅花", pvpMain.cardColorCount[1]);
+            colors[2] = new Color("红桃", pvpMain.cardColorCount[2]);
+            colors[3] = new Color("方块", pvpMain.cardColorCount[3]);
+            Arrays.sort(colors, new Comparator<Color>() {
+                @Override
+                public int compare(Color o1, Color o2) {
+                    return o2.count - o1.count;
+                }
+            });
+
+            for (Card card : pvpMain.playerCards) {
+                if (card.color.equals(colors[0].name) && !card.color.equals(pvpMain.cardsPlacement.get(pvpMain.cardsPlacement.size() - 1).color)) {
+                    selectCard(card);
+                    Thread.sleep(500);
+                    place(card);
+                    flag = 1;
+                    break;
+                }
+            }
+
+            if (flag == 1)
+                return;
+
+            for (Card card : pvpMain.playerCards) {
+                if (card.color.equals(colors[1].name) && !card.color.equals(pvpMain.cardsPlacement.get(pvpMain.cardsPlacement.size() - 1).color)) {
+                    selectCard(card);
+                    Thread.sleep(500);
+                    place(card);
+                    flag = 1;
+                    break;
+                }
+            }
+
+            if (flag == 1)
+                return;
+
+            for (Card card : pvpMain.playerCards) {
+                if (card.color.equals(colors[2].name) && !card.color.equals(pvpMain.cardsPlacement.get(pvpMain.cardsPlacement.size() - 1).color)) {
+                    selectCard(card);
+                    Thread.sleep(500);
+                    place(card);
+                    flag = 1;
+                    break;
+                }
+            }
+
+            if (flag == 1)
+                return;
+
+            for (Card card : pvpMain.playerCards) {
+                if (card.color.equals(colors[3].name) && !card.color.equals(pvpMain.cardsPlacement.get(pvpMain.cardsPlacement.size() - 1).color)) {
+                    selectCard(card);
+                    Thread.sleep(500);
+                    place(card);
+                    flag = 1;
+                    break;
+                }
+            }
+            if (flag == 0) {
+//                turnOver();
+                turnOverAction.turnOver1();
             }
         }
     }
@@ -308,7 +323,16 @@ public class AI extends Thread{
 
         card.canClick = false;
         card.clicked = false;
-        switchPlayer();
+        if (!pvpMain.online)
+            switchPlayer();
+        else {
+            NetworkInterfaceUtils.doPlayerOperation(pvpMain.token, pvpMain.uuid, card.transfer());
+            pvpMain.jLabel.setText("剩余数量:" + pvpMain.cardList.size());
+            pvpMain.jLabel1.setText("剩余数量:" + pvpMain.cardsPlacement.size());
+            for (Card card1 : pvpMain.playerCards) {
+                card1.canClick = true;
+            }
+        }
     }
 
     public void gameEnd() {

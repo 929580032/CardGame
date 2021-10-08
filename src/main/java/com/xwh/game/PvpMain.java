@@ -1,5 +1,7 @@
 package com.xwh.game;
 
+import com.xwh.NetworkInterfaceUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -10,7 +12,7 @@ public class PvpMain extends JFrame  {
 	int[] cardColorCount = new int[]{13, 13, 13, 13};
 	Container container = null;// 定义容器
 	List<Card> cardList = new ArrayList<>();//卡组
-	List<Card> cardsPlacement = new ArrayList<>();//卡牌放置区
+	public List<Card> cardsPlacement = new ArrayList<>();//卡牌放置区
 	List<Card> playerCards = new ArrayList<>();//玩家1手牌
 	List<Card> playerCards2 = new ArrayList<>();//玩家2手牌
 	boolean playOrder = true;//true表示轮到玩家1, false表示轮到玩家2
@@ -27,7 +29,28 @@ public class PvpMain extends JFrame  {
 	JButton AIbutton1 = new JButton("托管");
 	AI ai = null;
 	AI ai2 = null;
+	public boolean online = false;
+	public String token = "";
+	public String uuid = "";
 
+	public PvpMain(boolean online, String token, String uuid) {
+		Init();// 初始化窗体
+		this.setVisible(true);
+		CardInit();// 卡组初始化
+		buttonsInit();//按钮初始化
+		jLabelsInit();//标签初始化
+		this.online = online;
+		this.token = token;
+		this.uuid = uuid;
+		GetLastOperation getLastOperation = new GetLastOperation(this);
+		getLastOperation.start();
+		turnOverButton2.setVisible(false);
+		placeButton2.setVisible(false);
+		AIbutton.setVisible(false);
+		turnOverButton1.setVisible(false);
+		placeButton1.setVisible(false);
+		AIbutton1.setVisible(false);
+	}
 
 	public PvpMain(boolean pveFlag) {
 		Init();// 初始化窗体
@@ -70,6 +93,7 @@ public class PvpMain extends JFrame  {
 		jButton.setVisible(true);
 		jButton.addActionListener(actionListener);
 		container.setComponentZOrder(jButton, 0);
+		jButton.setFocusPainted(false);
 	}
 
 	//按钮初始化
@@ -113,7 +137,7 @@ public class PvpMain extends JFrame  {
 
 //			Card playerCard = new Card(this, Integer.toString(i), true, color, (i % 13 == 0) ? 13 : i % 13, cardsPlacement);
 //			playerCard.canClick = true;
-//			playerCards.add(playerCard);
+//			playerCards.add(new Card(this, playerCard.transfer(), true, cardsPlacement));
 //			Card playerCard2 = new Card(this, Integer.toString(i), true, color, (i % 13 == 0) ? 13 : i % 13, cardsPlacement);
 //			playerCards2.add(playerCard2);
 
@@ -129,8 +153,10 @@ public class PvpMain extends JFrame  {
 		card.setLocation(700, 250);
 		container.setComponentZOrder(card, 0);
 
+
 //		for (int i = 0; i < playerCards.size(); i++) {
 //			Card playerCard = playerCards.get(i);
+//			System.out.println(playerCard);
 //			container.add(playerCard);
 //		}
 //		MoveCardUtil.rePosition(this, playerCards, 1);

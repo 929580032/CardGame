@@ -20,6 +20,59 @@ public class Card extends JLabel implements MouseListener {
     List<Card> cardsPlacement;
     boolean clicked = false;
 
+    public String transfer() {
+        String[] colors = new String[]{"S", "C", "H", "D"};
+        int id = Integer.parseInt(name);
+        String color = colors[(id - 1) / 13];
+        String num = Integer.toString((id - 1) % 13 + 1);
+        if ("11".equals(num))
+            num = "J";
+        if ("12".equals(num))
+            num = "Q";
+        if ("13".equals(num))
+            num = "K";
+        return color + num;
+    }
+
+    public Card(PvpMain m, String str, boolean up, List<Card> cardsPlacement){
+        String color = str.substring(0, 1);
+        String num = str.substring(1, str.length());
+        if ("J".equals(num))
+            num = "11";
+        if ("Q".equals(num))
+            num = "12";
+        if ("K".equals(num))
+            num = "13";
+        String[] colors = new String[]{"S", "C", "H", "D"};
+        for (int i = 0; i < 52; i++) {
+            if ((colors[i / 13] + Integer.toString(i % 13 + 1)).equals(color + num)) {
+                this.name = Integer.toString(i + 1);
+                this.num = i % 13 + 1;
+                if (i / 13 == 0)
+                    this.color = "黑桃";
+                if (i / 13 == 1)
+                    this.color = "草花";
+                if (i / 13 == 2)
+                    this.color = "红桃";
+                if (i / 13 == 3)
+                    this.color = "方块";
+                break;
+            }
+        }
+
+        this.cardsPlacement = cardsPlacement;
+        this.pvpMain =m;
+        container = m.getContentPane();
+        this.up=up;
+        if(this.up)
+            this.turnFront();
+        else {
+            this.turnRear();
+        }
+        this.setVisible(true);
+        this.addMouseListener(this);
+    }
+
     public Card(PvpMain m, String name, boolean up, String color, int num, List<Card> cardsPlacement){
         this.cardsPlacement = cardsPlacement;
         this.num = num;
@@ -108,7 +161,7 @@ public class Card extends JLabel implements MouseListener {
         else
             step = -20;
         clicked = !clicked;
-        if (pvpMain.playOrder)
+        if (pvpMain.playOrder || pvpMain.online)
             this.setLocation(this.getX(), this.getY() + step);
         else
             this.setLocation(this.getX(), this.getY() - step);
