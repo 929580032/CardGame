@@ -1,8 +1,6 @@
-package com.xwh;
+package com.xwh.game;
 
 import com.alibaba.fastjson.JSONObject;
-import com.xwh.game.Card;
-import com.xwh.game.PvpMain;
 import okhttp3.*;
 
 import java.io.IOException;

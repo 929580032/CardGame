@@ -27,7 +27,7 @@ public class PlacementAction implements ActionListener {
             pvpMain.cardsPlacement.clear();
         }
         else {
-            card.setLocation(700, 250);
+            card.setLocation(710, 250);
             pvpMain.container.setComponentZOrder(card, 0);
             MoveCardUtil.rePosition(pvpMain, pvpMain.playerCards2, 2);
         }
@@ -43,68 +43,6 @@ public class PlacementAction implements ActionListener {
     }
 
 
-    public void placement1() {
-        if (pvpMain.playOrder || pvpMain.online) {
-            Card card = null;
-            int count = 0;
-            for (Card playerCard1 : pvpMain.playerCards) {
-                if (playerCard1.clicked) {
-                    count++;
-                    card = playerCard1;
-                }
-            }
-            if (count == 1) {
-                pvpMain.cardsPlacement.add(card);
-                pvpMain.playerCards.remove(card);
-                if (pvpMain.cardsPlacement.size() > 1 && card.color.equals(pvpMain.cardsPlacement.get(pvpMain.cardsPlacement.size() - 2).color))
-                    eatCard();
-                else {
-                    card.setLocation(700, 250);
-                    pvpMain.container.setComponentZOrder(card, 0);
-                    MoveCardUtil.rePosition(pvpMain, pvpMain.playerCards, 1);
-                }
-                card.canClick = false;
-                card.clicked = false;
-                if (!pvpMain.online) {
-                    switchPlayer();
-                }
-                else {
-                    NetworkInterfaceUtils.doPlayerOperation(pvpMain.token, pvpMain.uuid, card.transfer());
-                    pvpMain.jLabel.setText("剩余数量:" + pvpMain.cardList.size());
-                    pvpMain.jLabel1.setText("剩余数量:" + pvpMain.cardsPlacement.size());
-                    for (Card card1 : pvpMain.playerCards) {
-                        card1.canClick = true;
-                    }
-                }
-
-            }
-        }
-        else {
-            Card card = null;
-            int count = 0;
-            for (Card playerCard1 : pvpMain.playerCards2) {
-                if (playerCard1.clicked) {
-                    count++;
-                    card = playerCard1;
-                }
-            }
-            if (count == 1) {
-                pvpMain.cardsPlacement.add(card);
-                pvpMain.playerCards2.remove(card);
-
-                if (pvpMain.cardsPlacement.size() > 1 && card.color.equals(pvpMain.cardsPlacement.get(pvpMain.cardsPlacement.size() - 2).color))
-                    eatCard();
-                else {
-                    card.setLocation(700, 250);
-                    pvpMain.container.setComponentZOrder(card, 0);
-                    MoveCardUtil.rePosition(pvpMain, pvpMain.playerCards2, 2);
-                }
-                card.canClick = false;
-                card.clicked = false;
-                switchPlayer();
-            }
-        }
-    }
 
 
     @Override
@@ -156,4 +94,68 @@ public class PlacementAction implements ActionListener {
         }
         pvpMain.cardsPlacement.clear();
     }
+
+    public void placement1() {
+        if (pvpMain.playOrder || pvpMain.online) {
+            Card card = null;
+            int count = 0;
+            for (Card playerCard1 : pvpMain.playerCards) {
+                if (playerCard1.clicked) {
+                    count++;
+                    card = playerCard1;
+                }
+            }
+            if (count == 1) {
+                pvpMain.cardsPlacement.add(card);
+                pvpMain.playerCards.remove(card);
+                if (pvpMain.cardsPlacement.size() > 1 && card.color.equals(pvpMain.cardsPlacement.get(pvpMain.cardsPlacement.size() - 2).color))
+                    eatCard();
+                else {
+                    card.setLocation(710, 250);
+                    pvpMain.container.setComponentZOrder(card, 0);
+                    MoveCardUtil.rePosition(pvpMain, pvpMain.playerCards, 1);
+                }
+                card.canClick = false;
+                card.clicked = false;
+                if (!pvpMain.online) {
+                    switchPlayer();
+                }
+                else {
+                    NetworkInterfaceUtils.doPlayerOperation(pvpMain.token, pvpMain.uuid, card.transfer());
+                    pvpMain.jLabel.setText("剩余数量:" + pvpMain.cardList.size());
+                    pvpMain.jLabel1.setText("剩余数量:" + pvpMain.cardsPlacement.size());
+                    for (Card card1 : pvpMain.playerCards) {
+                        card1.canClick = true;
+                    }
+                }
+
+            }
+        }
+        else {
+            Card card = null;
+            int count = 0;
+            for (Card playerCard1 : pvpMain.playerCards2) {
+                if (playerCard1.clicked) {
+                    count++;
+                    card = playerCard1;
+                }
+            }
+            if (count == 1) {
+                pvpMain.cardsPlacement.add(card);
+                pvpMain.playerCards2.remove(card);
+
+                if (pvpMain.cardsPlacement.size() > 1 && card.color.equals(pvpMain.cardsPlacement.get(pvpMain.cardsPlacement.size() - 2).color))
+                    eatCard();
+                else {
+                    card.setLocation(710, 250);
+                    pvpMain.container.setComponentZOrder(card, 0);
+                    MoveCardUtil.rePosition(pvpMain, pvpMain.playerCards2, 2);
+                }
+                card.canClick = false;
+                card.clicked = false;
+                switchPlayer();
+            }
+        }
+    }
+
 }

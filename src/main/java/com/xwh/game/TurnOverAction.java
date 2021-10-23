@@ -26,7 +26,7 @@ public class TurnOverAction implements ActionListener {
         String substring = text.substring(0, 3);
         substring += pvpMain.cardColorCount[(Integer.parseInt(card.name) - 1) / 13];
         pvpMain.colorsJLabel[(Integer.parseInt(card.name) - 1) / 13].setText(substring);
-        card.setLocation(700, 250);
+        card.setLocation(710, 250);
         pvpMain.container.setComponentZOrder(card, 0);
         pvpMain.cardList.remove(pvpMain.cardList.size() - 1);
         card.turnFront();
@@ -41,56 +41,6 @@ public class TurnOverAction implements ActionListener {
         gameEnd();
     }
 
-    public void turnOver1() {
-        Card card;
-        if (pvpMain.online) {
-            card = NetworkInterfaceUtils.doPlayerOperation(pvpMain.token, pvpMain.uuid, pvpMain);
-            pvpMain.container.add(card);
-        }
-        else {
-            card = pvpMain.cardList.get(pvpMain.cardList.size() - 1);
-            pvpMain.container.add(card);
-        }
-        card.turnFront();
-        pvpMain.cardColorCount[(Integer.parseInt(card.name) - 1) / 13]--;
-
-        String text = pvpMain.colorsJLabel[(Integer.parseInt(card.name) - 1) / 13].getText();
-        String substring = text.substring(0, 3);
-        substring += pvpMain.cardColorCount[(Integer.parseInt(card.name) - 1) / 13];
-        pvpMain.colorsJLabel[(Integer.parseInt(card.name) - 1) / 13].setText(substring);
-
-        card.setLocation(700, 250);
-        pvpMain.container.setComponentZOrder(card, 0);
-        pvpMain.cardList.remove(pvpMain.cardList.size() - 1);
-        pvpMain.cardsPlacement.add(card);
-        if (pvpMain.playOrder) {
-            if (pvpMain.cardsPlacement.size() > 1 && card.color.equals(pvpMain.cardsPlacement.get(pvpMain.cardsPlacement.size() - 2).color))
-                eatCard();
-            if (!pvpMain.online)
-                switchPlayer();
-            else {
-                for (Card playerCard : pvpMain.playerCards) {
-                    playerCard.canClick = true;
-                }
-                pvpMain.jLabel.setText("剩余数量:" + pvpMain.cardList.size());
-                pvpMain.jLabel1.setText("剩余数量:" + pvpMain.cardsPlacement.size());
-            }
-        }
-        else {
-            if (pvpMain.cardsPlacement.size() > 1 && card.color.equals(pvpMain.cardsPlacement.get(pvpMain.cardsPlacement.size() - 2).color))
-                eatCard();
-            if (!pvpMain.online)
-                switchPlayer();
-            else {
-                for (Card playerCard : pvpMain.playerCards) {
-                    playerCard.canClick = true;
-                }
-                pvpMain.jLabel.setText("剩余数量:" + pvpMain.cardList.size());
-                pvpMain.jLabel1.setText("剩余数量:" + pvpMain.cardsPlacement.size());
-            }
-        }
-        gameEnd();
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -173,4 +123,56 @@ public class TurnOverAction implements ActionListener {
             pvpMain.jLabel1.setText("剩余数量:" + pvpMain.cardsPlacement.size());
         }
     }
+
+    public void turnOver1() {
+        Card card;
+        if (pvpMain.online) {
+            card = NetworkInterfaceUtils.doPlayerOperation(pvpMain.token, pvpMain.uuid, pvpMain);
+            pvpMain.container.add(card);
+        }
+        else {
+            card = pvpMain.cardList.get(pvpMain.cardList.size() - 1);
+            pvpMain.container.add(card);
+        }
+        card.turnFront();
+        pvpMain.cardColorCount[(Integer.parseInt(card.name) - 1) / 13]--;
+
+        String text = pvpMain.colorsJLabel[(Integer.parseInt(card.name) - 1) / 13].getText();
+        String substring = text.substring(0, 3);
+        substring += pvpMain.cardColorCount[(Integer.parseInt(card.name) - 1) / 13];
+        pvpMain.colorsJLabel[(Integer.parseInt(card.name) - 1) / 13].setText(substring);
+
+        card.setLocation(710, 250);
+        pvpMain.container.setComponentZOrder(card, 0);
+        pvpMain.cardList.remove(pvpMain.cardList.size() - 1);
+        pvpMain.cardsPlacement.add(card);
+        if (pvpMain.playOrder) {
+            if (pvpMain.cardsPlacement.size() > 1 && card.color.equals(pvpMain.cardsPlacement.get(pvpMain.cardsPlacement.size() - 2).color))
+                eatCard();
+            if (!pvpMain.online)
+                switchPlayer();
+            else {
+                for (Card playerCard : pvpMain.playerCards) {
+                    playerCard.canClick = true;
+                }
+                pvpMain.jLabel.setText("剩余数量:" + pvpMain.cardList.size());
+                pvpMain.jLabel1.setText("剩余数量:" + pvpMain.cardsPlacement.size());
+            }
+        }
+        else {
+            if (pvpMain.cardsPlacement.size() > 1 && card.color.equals(pvpMain.cardsPlacement.get(pvpMain.cardsPlacement.size() - 2).color))
+                eatCard();
+            if (!pvpMain.online)
+                switchPlayer();
+            else {
+                for (Card playerCard : pvpMain.playerCards) {
+                    playerCard.canClick = true;
+                }
+                pvpMain.jLabel.setText("剩余数量:" + pvpMain.cardList.size());
+                pvpMain.jLabel1.setText("剩余数量:" + pvpMain.cardsPlacement.size());
+            }
+        }
+        gameEnd();
+    }
+
 }

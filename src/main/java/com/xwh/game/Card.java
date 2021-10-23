@@ -7,6 +7,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.net.URL;
 import java.util.List;
+import java.util.Objects;
+
 //卡组
 public class Card extends JLabel implements MouseListener {
 
@@ -77,7 +79,8 @@ public class Card extends JLabel implements MouseListener {
         this.cardsPlacement = cardsPlacement;
         this.num = num;
         this.pvpMain =m;
-        container = m.getContentPane();
+        if (m != null)
+            container = m.getContentPane();
         this.name=name;
         this.up=up;
         this.color=color;
@@ -169,9 +172,6 @@ public class Card extends JLabel implements MouseListener {
 
     @Override
     public String toString() {
-        return "Card{" +
-                "color='" + color + '\'' +
-                ", num=" + num +
-                '}';
+        return color + num;
     }
 }
