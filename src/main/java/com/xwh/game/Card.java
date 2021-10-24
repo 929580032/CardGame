@@ -174,4 +174,17 @@ public class Card extends JLabel implements MouseListener {
     public String toString() {
         return color + num;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Card card = (Card) o;
+        return up == card.up && canClick == card.canClick && num == card.num && clicked == card.clicked && Objects.equals(container, card.container) && Objects.equals(pvpMain, card.pvpMain) && Objects.equals(name, card.name) && Objects.equals(color, card.color) && Objects.equals(cardsPlacement, card.cardsPlacement);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(container, pvpMain, name, up, canClick, color, num, cardsPlacement, clicked);
+    }
 }

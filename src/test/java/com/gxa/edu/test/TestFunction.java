@@ -1,6 +1,7 @@
 package com.gxa.edu.test;
 
 import com.xwh.game.Card;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 public class TestFunction {
     @Test
     public void testShuffleCards() {
+        List<Card> initCardList = new ArrayList<>();
         List<Card> cardList = new ArrayList<>();
         for (int i = 1; i <= 52; i++) {
             String color = "";
@@ -20,12 +22,17 @@ public class TestFunction {
                 case 3: color = "方块";break;
             }
             Card card = new Card(null, Integer.toString(i), false, color, (i % 13 == 0) ? 13 : i % 13, null);
+            initCardList.add(card);
             cardList.add(card);
         }
-
         Collections.shuffle(cardList);
-        for (Card card : cardList) {
-            System.out.println(card);
+        boolean testResult = false;
+        for (int i = 0; i < 52; i++) {
+            if (!initCardList.get(i).equals(cardList.get(i))) {
+                testResult = true;
+                break;
+            }
         }
+        Assert.assertTrue(testResult);
     }
 }

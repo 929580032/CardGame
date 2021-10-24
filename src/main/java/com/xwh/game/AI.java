@@ -88,7 +88,11 @@ public class AI extends Thread{
         if (pvpMain.cardList.size() == 1 && (playerCards2.size() + pvpMain.cardsPlacement.size() + 1 < playerCards.size() || (playerCards2.size() < playerCards.size() && map.get(pvpMain.cardsPlacement.get(pvpMain.cardsPlacement.size() - 1).color) == 0))) {
             turnOverAction.turnOver1();
             return;
-
+        }
+        //如果牌比对面少且牌堆数 * 2 + 放置区牌数 > 自己手牌数
+        if (pvpMain.cardList.size() * 2 + playerCards2.size() + pvpMain.cardsPlacement.size() < playerCards.size()) {
+            turnOverAction.turnOver1();
+            return;
         }
         if (playerCards.size() != 0 && isPlayerCardsSameColor(playerCards) && count == 1 && map.get(playerCards.get(0).color) != 0) {
             for (Card card : playerCards2) {
@@ -102,6 +106,7 @@ public class AI extends Thread{
                 }
             }
         }
+        //牌比对面少且抽牌后可以保证不会吃牌，就抽牌
         if (playerCards2.size() < playerCards.size() && (pvpMain.cardsPlacement.size() == 0 || map.get(pvpMain.cardsPlacement.get(pvpMain.cardsPlacement.size() - 1).color) == 0)) {
             turnOverAction.turnOver1();
             return;

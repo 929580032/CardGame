@@ -219,36 +219,7 @@ public class PvpMain extends JFrame  {
 //				playerCard2.canClick = true;
 //			}
 		}
-
-
-//		for (int i = 1; i <= 52; i++) {
-//			String color = "";
-//			switch ((i - 1) / 13) {
-//				case 0: color = "黑桃";break;
-//				case 1: color = "草花";break;
-//				case 2: color = "红桃";break;
-//				case 3: color = "方块";break;
-//			}
-//
-//			if (i == 1) {
-//				Card card = new Card(this, Integer.toString(i), false, color, (i % 13 == 0) ? 13 : i % 13, cardsPlacement);
-//				cardList.add(card);
-//			}
-//
-//			if (i != 1) {
-//				Card playerCard2 = new Card(this, Integer.toString(i), true, color, (i % 13 == 0) ? 13 : i % 13, cardsPlacement);
-//				playerCards2.add(playerCard2);
-//			}
-//
-////			if (i == 14 || i == 15 || i == 16 || i == 17 || i == 1) {
-//			if (true) {
-//				Card playerCard = new Card(this, Integer.toString(i), true, color, (i % 13 == 0) ? 13 : i % 13, cardsPlacement);
-//				playerCard.canClick = true;
-//				playerCards.add(playerCard);
-//			}
-//		}
-
-
+		Collections.shuffle(cardList);
 		for (Card card : cardList) {
 			container.add(card);
 			card.setLocation(410, 250);

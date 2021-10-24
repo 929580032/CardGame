@@ -17,8 +17,12 @@ public class LoginFrame extends JFrame{
     private JPasswordField password = new JPasswordField();
     private JButton okbtn = new JButton("确定");
     private JButton cancelbtn = new JButton("取消");
+    StartGame startGame;
 
-    public LoginFrame() {
+    public LoginFrame(StartGame startGame) {
+
+        this.startGame = startGame;
+
         this.setTitle("登录");
         //设置窗体的位置及大小
         this.setBounds(600, 200, 300, 220);
@@ -69,7 +73,7 @@ public class LoginFrame extends JFrame{
     }
     //测试
     public static void main(String[] args) {
-        new LoginFrame();
+        new LoginFrame(null);
     }
     public void listerner() {
         //确认按下去获取
@@ -93,6 +97,7 @@ public class LoginFrame extends JFrame{
                     pwd = String.valueOf(password.getPassword());
                 }
                 new RoomFrame(NetworkInterfaceUtils.login(uname, pwd));
+                startGame.dispose();
 //                new RoomFrame(NetworkInterfaceUtils.login(("1".equals(uname) ? "031902123" : "031902117"), ("1".equals(uname) ? "YXI691128" : "161503nyh!")));
                 dispose();
             }
@@ -101,6 +106,7 @@ public class LoginFrame extends JFrame{
         cancelbtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                startGame.dispose();
                 new StartGame();
                 dispose();
             }

@@ -92,8 +92,10 @@ public class StartGame extends JFrame implements ActionListener {
             dispose();
         }
         if (e.getSource() == onlineButton) {
-            new LoginFrame();
-            dispose();
+            new LoginFrame(this);
+            pvpButton.setVisible(false);
+            pveButton.setVisible(false);
+            onlineButton.setVisible(false);
         }
     }
 }

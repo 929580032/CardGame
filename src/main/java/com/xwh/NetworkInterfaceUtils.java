@@ -33,7 +33,7 @@ public class NetworkInterfaceUtils {
 
     public static String createGame(String token, boolean isPrivate) {
         MediaType mediaType = MediaType.parse("application/json");
-        RequestBody body = RequestBody.create(mediaType, "{\r\n  \"private\": " + Boolean.toString(isPrivate) +"\r\n}");
+        RequestBody body = RequestBody.create(mediaType, "{\r\n  \"private\": " + isPrivate +"\r\n}");
         Request request = new Request.Builder()
                 .url("http://172.17.173.97:9000/api/game")
                 .method("POST", body)
